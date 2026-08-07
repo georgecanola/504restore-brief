@@ -1,0 +1,1051 @@
+Content is user-generated and unverified.
+
+
+Learn how to customize
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>504Restore — Acquisition Deal Analyzer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D1B2A;--navy2:#1B3A5C;--gold:#C9A84C;--gold-lt:#E8D08A;--gold-pale:#FDF3D8;
+  --white:#FFFFFF;--warm:#F8F7F4;--light:#F0EEE9;--border:#E2DED7;
+  --text:#0D1B2A;--muted:#6B7280;--green:#1E7C39;--red:#C0392B;--amber:#D97706;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Inter',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --r:6px;--r-lg:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--warm);color:var(--text);min-height:100vh;font-size:15px}
+
+/* NAV */
+.nav{background:var(--navy);border-bottom:3px solid var(--gold);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:68px;position:sticky;top:0;z-index:100}
+.nav-brand{font-family:var(--font-display);font-size:20px;font-weight:900;color:#fff;letter-spacing:.5px}
+.nav-brand span{color:var(--gold)}
+.nav-right{display:flex;align-items:center;gap:16px}
+.nav-tag{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gold-lt);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:20px}
+.btn-score{background:var(--gold);color:var(--navy);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:8px 20px;border-radius:var(--r);border:none;cursor:pointer;transition:all .15s}
+.btn-score:hover{background:var(--gold-lt)}
+
+/* LAYOUT */
+.page{max-width:1280px;margin:0 auto;padding:32px 24px}
+.grid-main{display:grid;grid-template-columns:420px 1fr;gap:24px;align-items:start}
+.left-col{display:flex;flex-direction:column;gap:16px}
+.right-col{display:flex;flex-direction:column;gap:16px}
+
+/* CARDS */
+.card{background:var(--white);border-radius:var(--r-lg);border:1px solid var(--border);overflow:hidden}
+.card-header{background:var(--navy);padding:14px 20px;display:flex;align-items:center;gap:10px}
+.card-header-gold{background:var(--gold);padding:14px 20px;display:flex;align-items:center;gap:10px}
+.card-title{font-family:var(--font-display);font-size:15px;font-weight:700;color:#fff;letter-spacing:.3px}
+.card-title-dark{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--navy)}
+.card-eyebrow{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-left:auto}
+.card-eyebrow-dark{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(13,27,42,.5);margin-left:auto}
+.card-body{padding:20px}
+
+/* FORM ELEMENTS */
+.field{margin-bottom:14px}
+.field:last-child{margin-bottom:0}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.lbl{display:block;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.inp{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r);font-family:var(--font-body);font-size:14px;color:var(--text);background:var(--white);outline:none;transition:border-color .15s}
+.inp:focus{border-color:var(--gold)}
+.inp-prefix{position:relative}
+.inp-prefix .inp{padding-left:26px}
+.inp-prefix .prefix{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none}
+.inp-suffix{position:relative}
+.inp-suffix .inp{padding-right:30px}
+.inp-suffix .suffix{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none}
+select.inp{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236B7280'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:16px 0}
+.section-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-label::after{content:'';flex:1;height:1px;background:rgba(201,168,76,.3)}
+
+/* SCORE DISPLAY */
+.score-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);border-radius:var(--r-lg);padding:28px;text-align:center;position:relative;overflow:hidden}
+.score-hero::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;border:1px solid rgba(201,168,76,.1)}
+.score-num{font-family:var(--font-display);font-size:80px;font-weight:900;line-height:1;margin-bottom:4px;transition:color .3s}
+.score-label{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:16px}
+.score-verdict{font-family:var(--font-display);font-size:20px;font-weight:700;margin-bottom:6px}
+.score-sub{font-size:13px;color:rgba(255,255,255,.55)}
+.score-bar-wrap{margin-top:20px;background:rgba(255,255,255,.1);border-radius:20px;height:6px;overflow:hidden}
+.score-bar{height:6px;border-radius:20px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+
+/* METRIC GRID */
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.metric-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.metric{background:var(--warm);border-radius:var(--r);padding:14px;border:1px solid var(--border)}
+.metric-val{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--navy);line-height:1;margin-bottom:3px;transition:color .3s}
+.metric-lbl{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.metric-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.metric.highlight{background:var(--gold-pale);border-color:rgba(201,168,76,.4)}
+.metric.highlight .metric-val{color:var(--navy)}
+.metric.good{background:rgba(30,124,57,.06);border-color:rgba(30,124,57,.2)}
+.metric.good .metric-val{color:var(--green)}
+.metric.bad{background:rgba(192,57,43,.06);border-color:rgba(192,57,43,.2)}
+.metric.bad .metric-val{color:var(--red)}
+.metric.warn{background:rgba(217,119,6,.06);border-color:rgba(217,119,6,.2)}
+.metric.warn .metric-val{color:var(--amber)}
+
+/* SCORE BREAKDOWN */
+.score-cat{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.score-cat:last-child{border-bottom:none}
+.score-cat-name{flex:1;font-size:13px;color:var(--text)}
+.score-cat-pts{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--muted);width:60px;text-align:right}
+.score-cat-bar-wrap{width:80px;height:4px;background:var(--border);border-radius:4px;overflow:hidden}
+.score-cat-bar{height:4px;border-radius:4px;background:var(--gold);transition:width .4s}
+
+/* PRO FORMA TABLE */
+.pf-table{width:100%;border-collapse:collapse;font-size:13px}
+.pf-table th{background:var(--navy);color:rgba(255,255,255,.7);font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:8px 12px;text-align:left}
+.pf-table th:not(:first-child){text-align:right}
+.pf-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+.pf-table td:not(:first-child){text-align:right;font-family:var(--font-mono);font-size:12px}
+.pf-table tr:nth-child(even) td{background:var(--warm)}
+.pf-table .row-header td{background:rgba(13,27,42,.04);font-weight:600;font-size:12px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+.pf-table .row-total td{background:var(--navy);color:#fff;font-weight:600}
+.pf-table .row-total td:not(:first-child){font-family:var(--font-mono)}
+.pf-table .row-noi td{background:var(--gold-pale);font-weight:700}
+.pf-table .row-cf td{font-weight:700}
+.pf-table .positive{color:var(--green)}
+.pf-table .negative{color:var(--red)}
+
+/* CF CHART */
+.chart-wrap{position:relative;height:140px;margin-top:8px}
+.chart-bars{display:flex;align-items:flex-end;gap:4px;height:100%;padding-bottom:20px}
+.chart-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;height:100%}
+.chart-bar-inner{width:100%;border-radius:3px 3px 0 0;transition:height .4s;min-height:2px;position:relative}
+.chart-bar-inner:hover .chart-tooltip{display:block}
+.chart-tooltip{display:none;position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-size:10px;padding:3px 6px;border-radius:3px;white-space:nowrap;z-index:10}
+.chart-bar-label{font-size:9px;color:var(--muted);margin-top:4px}
+.chart-zero{position:absolute;bottom:20px;left:0;right:0;height:1px;background:var(--border)}
+
+/* UNIT MIX TABLE */
+.unit-table{width:100%;border-collapse:collapse;font-size:13px}
+.unit-table th{background:var(--navy);color:rgba(255,255,255,.7);font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:8px 12px;text-align:left}
+.unit-table th:not(:first-child){text-align:center}
+.unit-table td{padding:8px 12px;border-bottom:1px solid var(--border);text-align:center}
+.unit-table td:first-child{text-align:left;font-weight:600}
+.unit-table tr:nth-child(even) td{background:var(--warm)}
+.unit-table .total-row td{background:var(--gold-pale);font-weight:700}
+
+/* VERDICT BADGE */
+.verdict-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.verdict-core{background:rgba(30,124,57,.12);color:var(--green)}
+.verdict-strong{background:rgba(30,124,57,.08);color:#2d8a4a}
+.verdict-negotiate{background:rgba(217,119,6,.1);color:var(--amber)}
+.verdict-reject{background:rgba(192,57,43,.1);color:var(--red)}
+
+/* TABS */
+.tabs{display:flex;gap:2px;border-bottom:2px solid var(--border);margin-bottom:20px}
+.tab{padding:10px 18px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s}
+.tab.active{color:var(--navy);border-bottom-color:var(--gold);font-weight:600}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* RESET BTN */
+.btn-reset{width:100%;background:transparent;border:1.5px solid var(--border);border-radius:var(--r);padding:9px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .15s}
+.btn-reset:hover{border-color:var(--navy);color:var(--navy)}
+
+/* FOOTER */
+.page-footer{text-align:center;padding:32px 0;color:var(--muted);font-size:12px;border-top:1px solid var(--border);margin-top:32px}
+
+@media(max-width:900px){
+  .grid-main{grid-template-columns:1fr}
+  .metric-grid-3{grid-template-columns:1fr 1fr}
+  .nav{padding:0 20px}
+  .page{padding:20px 14px}
+}
+@media(max-width:500px){
+  .field-row{grid-template-columns:1fr}
+  .metric-grid,.metric-grid-3{grid-template-columns:1fr 1fr}
+  .score-num{font-size:60px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">504<span>RESTORE</span> <span style="font-size:13px;font-weight:400;color:rgba(255,255,255,.35)">· Deal Analyzer</span></div>
+  <div class="nav-right">
+    <div class="nav-tag">Section 8 Asset Score™</div>
+    <button class="btn-score" onclick="scrollToScore()">View Score ↓</button>
+  </div>
+</nav>
+
+<div class="page">
+<div class="grid-main">
+
+<!-- ═══ LEFT COLUMN — INPUTS ═══ -->
+<div class="left-col">
+
+  <!-- Property Info -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Property Information</div>
+      <div class="card-eyebrow">Step 1</div>
+    </div>
+    <div class="card-body">
+      <div class="field"><label class="lbl">Property Name</label><input class="inp" id="propName" value="Parks at Slidell" oninput="calc()"></div>
+      <div class="field"><label class="lbl">Address</label><input class="inp" id="propAddr" value="300 N. Military Rd., Slidell, LA 70461" oninput="calc()"></div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Year Built</label><input class="inp" id="yearBuilt" value="1976" oninput="calc()"></div>
+        <div class="field"><label class="lbl">Asset Class</label>
+          <select class="inp" id="assetClass" onchange="calc()">
+            <option value="A">Class A</option><option value="B">Class B</option><option value="C" selected>Class C</option><option value="D">Class D</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Total Units</label><input class="inp" id="totalUnits" type="number" value="117" oninput="calc()"></div>
+        <div class="field"><label class="lbl">Number of Buildings</label><input class="inp" id="numBuildings" type="number" value="17" oninput="calc()"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Total Sq Ft</label><input class="inp" id="totalSqft" type="number" value="111550" oninput="calc()"></div>
+        <div class="field"><label class="lbl">Stories</label><input class="inp" id="stories" type="number" value="2" oninput="calc()"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Acquisition -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Acquisition & Financing</div>
+      <div class="card-eyebrow">Step 2</div>
+    </div>
+    <div class="card-body">
+      <div class="section-label">Purchase</div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Purchase Price</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="purchasePrice" type="number" value="21000000" oninput="calc()"></div>
+        </div>
+        <div class="field"><label class="lbl">Renovation Budget</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="renovationCost" type="number" value="200000" oninput="calc()"></div>
+        </div>
+      </div>
+      <div class="field"><label class="lbl">Other Closing Costs</label>
+        <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="closingCosts" type="number" value="568234" oninput="calc()"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label">Loan Terms</div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Interest Rate</label>
+          <div class="inp-suffix"><input class="inp" id="interestRate" type="number" step="0.01" value="5.00" oninput="calc()"><span class="suffix">%</span></div>
+        </div>
+        <div class="field"><label class="lbl">LTV Ratio</label>
+          <div class="inp-suffix"><input class="inp" id="ltv" type="number" step="1" value="75" oninput="calc()"><span class="suffix">%</span></div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Amortization (yrs)</label><input class="inp" id="amortYears" type="number" value="30" oninput="calc()"></div>
+        <div class="field"><label class="lbl">Loan Term (yrs)</label><input class="inp" id="loanTerm" type="number" value="10" oninput="calc()"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Interest Only Period</label><input class="inp" id="ioPeriod" type="number" value="3" oninput="calc()"></div>
+        <div class="field"><label class="lbl">Loan Origination</label>
+          <div class="inp-suffix"><input class="inp" id="loanPoints" type="number" step="0.1" value="1.0" oninput="calc()"><span class="suffix">%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Income -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Income Assumptions</div>
+      <div class="card-eyebrow">Step 3</div>
+    </div>
+    <div class="card-body">
+      <div class="section-label">Rent</div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Proforma Monthly Rent / Unit</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="proformaRent" type="number" value="1100" oninput="calc()"></div>
+        </div>
+        <div class="field"><label class="lbl">Current Monthly Rent / Unit</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="currentRent" type="number" value="1085" oninput="calc()"></div>
+        </div>
+      </div>
+      <div class="field"><label class="lbl">HUD Fair Market Rent (Section 8)</label>
+        <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="hudFmr" type="number" value="1140" oninput="calc()"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label">Economic Loss (% of GPR)</div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Physical Vacancy</label>
+          <div class="inp-suffix"><input class="inp" id="vacancy" type="number" step="0.1" value="8.0" oninput="calc()"><span class="suffix">%</span></div>
+        </div>
+        <div class="field"><label class="lbl">Credit & Collection Loss</label>
+          <div class="inp-suffix"><input class="inp" id="creditLoss" type="number" step="0.1" value="1.5" oninput="calc()"><span class="suffix">%</span></div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Loss to Lease</label>
+          <div class="inp-suffix"><input class="inp" id="lossToLease" type="number" step="0.1" value="1.5" oninput="calc()"><span class="suffix">%</span></div>
+        </div>
+        <div class="field"><label class="lbl">Concessions</label>
+          <div class="inp-suffix"><input class="inp" id="concessions" type="number" step="0.1" value="0.25" oninput="calc()"><span class="suffix">%</span></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label">Other Annual Income</div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Utilities Income</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="utilitiesIncome" type="number" value="50000" oninput="calc()"></div>
+        </div>
+        <div class="field"><label class="lbl">Late Fees & Other</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="otherIncome" type="number" value="144119" oninput="calc()"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Expenses -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Operating Expenses</div>
+      <div class="card-eyebrow">Step 4</div>
+    </div>
+    <div class="card-body">
+      <div class="section-label">Annual Operating Expenses</div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Real Estate Taxes</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="taxes" type="number" value="95000" oninput="calc()"></div>
+        </div>
+        <div class="field"><label class="lbl">Property Insurance</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="insurance" type="number" value="128700" oninput="calc()"></div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Utilities (Common)</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="utilities" type="number" value="16500" oninput="calc()"></div>
+        </div>
+        <div class="field"><label class="lbl">Water & Sewer</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="waterSewer" type="number" value="67000" oninput="calc()"></div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Trash Removal</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="trash" type="number" value="37500" oninput="calc()"></div>
+        </div>
+        <div class="field"><label class="lbl">Contract Services</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="contractServices" type="number" value="40000" oninput="calc()"></div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Payroll</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="payroll" type="number" value="95400" oninput="calc()"></div>
+        </div>
+        <div class="field"><label class="lbl">Repairs & Maintenance</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="repairs" type="number" value="32500" oninput="calc()"></div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Make Ready</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="makeReady" type="number" value="27500" oninput="calc()"></div>
+        </div>
+        <div class="field"><label class="lbl">G&A</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="ga" type="number" value="34000" oninput="calc()"></div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Advertising</label>
+          <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="advertising" type="number" value="15000" oninput="calc()"></div>
+        </div>
+        <div class="field"><label class="lbl">Management Fee</label>
+          <div class="inp-suffix"><input class="inp" id="mgmtFee" type="number" step="0.5" value="4.0" oninput="calc()"><span class="suffix">%</span></div>
+        </div>
+      </div>
+      <div class="field"><label class="lbl">Reserves & Replacements / Unit / Year</label>
+        <div class="inp-prefix"><span class="prefix">$</span><input class="inp" id="reserves" type="number" value="343" oninput="calc()"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thresholds -->
+  <div class="card">
+    <div class="card-header card-header-gold">
+      <div class="card-title-dark">Target Returns & Thresholds</div>
+      <div class="card-eyebrow-dark">Your Hurdles</div>
+    </div>
+    <div class="card-body">
+      <div class="field-row">
+        <div class="field"><label class="lbl">Min DSCR</label><input class="inp" id="minDscr" type="number" step="0.05" value="1.20" oninput="calc()"></div>
+        <div class="field"><label class="lbl">Target DSCR</label><input class="inp" id="targetDscr" type="number" step="0.05" value="1.35" oninput="calc()"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Target Cap Rate</label>
+          <div class="inp-suffix"><input class="inp" id="targetCapRate" type="number" step="0.1" value="5.5" oninput="calc()"><span class="suffix">%</span></div>
+        </div>
+        <div class="field"><label class="lbl">Target CoC Return</label>
+          <div class="inp-suffix"><input class="inp" id="targetCoc" type="number" step="0.5" value="8.0" oninput="calc()"><span class="suffix">%</span></div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label class="lbl">Target Margin of Safety</label>
+          <div class="inp-suffix"><input class="inp" id="targetMos" type="number" step="5" value="30" oninput="calc()"><span class="suffix">%</span></div>
+        </div>
+        <div class="field"><label class="lbl">Exit Cap Rate</label>
+          <div class="inp-suffix"><input class="inp" id="exitCapRate" type="number" step="0.1" value="5.5" oninput="calc()"><span class="suffix">%</span></div>
+        </div>
+      </div>
+      <div class="field"><label class="lbl">Annual Rent Growth Rate (Yr 4+)</label>
+        <div class="inp-suffix"><input class="inp" id="rentGrowth" type="number" step="0.5" value="3.0" oninput="calc()"><span class="suffix">%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-reset" onclick="resetToDefault()">↺ Reset to Default Values</button>
+
+</div><!-- /left-col -->
+
+<!-- ═══ RIGHT COLUMN — RESULTS ═══ -->
+<div class="right-col" id="results">
+
+  <!-- SCORE HERO -->
+  <div class="score-hero" id="scoreHero">
+    <div class="score-label">Section 8 Asset Score™</div>
+    <div class="score-num" id="scoreNum">—</div>
+    <div id="scoreVerdict" class="score-verdict" style="color:#fff">Enter property details</div>
+    <div id="scoreSub" class="score-sub">Complete all inputs to generate your score</div>
+    <div class="score-bar-wrap"><div class="score-bar" id="scoreBar" style="width:0%;background:var(--gold)"></div></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:20px;justify-content:center" id="scoreBadgesWrap"></div>
+  </div>
+
+  <!-- KEY METRICS -->
+  <div class="card">
+    <div class="card-header"><div class="card-title">Key Metrics — Year 1</div><div class="card-eyebrow">Live Calculation</div></div>
+    <div class="card-body">
+      <div class="metric-grid" style="margin-bottom:10px">
+        <div class="metric" id="m-noi">
+          <div class="metric-val" id="mv-noi">$—</div>
+          <div class="metric-lbl">Net Operating Income</div>
+          <div class="metric-sub" id="ms-noi">Annual</div>
+        </div>
+        <div class="metric" id="m-cf">
+          <div class="metric-val" id="mv-cf">$—</div>
+          <div class="metric-lbl">Pre-Tax Cash Flow</div>
+          <div class="metric-sub" id="ms-cf">Annual (post-debt)</div>
+        </div>
+        <div class="metric" id="m-dscr">
+          <div class="metric-val" id="mv-dscr">—x</div>
+          <div class="metric-lbl">Debt Service Coverage</div>
+          <div class="metric-sub" id="ms-dscr">Min 1.20x target</div>
+        </div>
+        <div class="metric" id="m-coc">
+          <div class="metric-val" id="mv-coc">—%</div>
+          <div class="metric-lbl">Cash-on-Cash Return</div>
+          <div class="metric-sub" id="ms-coc">Target 8%+</div>
+        </div>
+        <div class="metric" id="m-caprate">
+          <div class="metric-val" id="mv-caprate">—%</div>
+          <div class="metric-lbl">Cap Rate</div>
+          <div class="metric-sub" id="ms-caprate">NOI / Total Basis</div>
+        </div>
+        <div class="metric" id="m-mos">
+          <div class="metric-val" id="mv-mos">—%</div>
+          <div class="metric-lbl">Margin of Safety</div>
+          <div class="metric-sub" id="ms-mos">Target 30%+</div>
+        </div>
+      </div>
+      <div class="metric-grid-3">
+        <div class="metric">
+          <div class="metric-val" id="mv-gpr">$—</div>
+          <div class="metric-lbl">Gross Potential Rent</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="mv-egi">$—</div>
+          <div class="metric-lbl">Effective Gross Income</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="mv-ds">$—</div>
+          <div class="metric-lbl">Annual Debt Service</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="mv-equity">$—</div>
+          <div class="metric-lbl">Equity Required</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="mv-loan">$—</div>
+          <div class="metric-lbl">Loan Amount</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="mv-mds">$—</div>
+          <div class="metric-lbl">Monthly Debt Service</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCORE BREAKDOWN -->
+  <div class="card" id="scoreBkdCard">
+    <div class="card-header"><div class="card-title">Section 8 Asset Score™ Breakdown</div></div>
+    <div class="card-body">
+      <div id="scoreBreakdown"></div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="card">
+    <div class="card-body" style="padding-bottom:0">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('proforma')">Pro Forma</div>
+        <div class="tab" onclick="switchTab('cashflow')">10-Year Cash Flow</div>
+        <div class="tab" onclick="switchTab('sources')">Sources & Uses</div>
+        <div class="tab" onclick="switchTab('unitmix')">Unit Mix</div>
+      </div>
+    </div>
+
+    <!-- PRO FORMA -->
+    <div id="tab-proforma" class="tab-panel active card-body" style="padding-top:0;overflow-x:auto">
+      <table class="pf-table" id="proformaTable"></table>
+    </div>
+
+    <!-- CASH FLOW -->
+    <div id="tab-cashflow" class="tab-panel card-body" style="padding-top:0">
+      <div class="chart-wrap" id="cfChart"></div>
+      <div style="overflow-x:auto;margin-top:16px">
+        <table class="pf-table" id="cfTable"></table>
+      </div>
+    </div>
+
+    <!-- SOURCES & USES -->
+    <div id="tab-sources" class="tab-panel card-body" style="padding-top:0">
+      <div class="metric-grid" style="margin-bottom:16px">
+        <div class="metric"><div class="metric-val" id="su-equity">$—</div><div class="metric-lbl">Equity / Down Payment</div></div>
+        <div class="metric"><div class="metric-val" id="su-debt">$—</div><div class="metric-lbl">Debt Borrowed</div></div>
+        <div class="metric"><div class="metric-val" id="su-total-src">$—</div><div class="metric-lbl">Total Sources</div></div>
+        <div class="metric"><div class="metric-val" id="su-total-use">$—</div><div class="metric-lbl">Total Uses</div></div>
+      </div>
+      <table class="pf-table" id="sourcesTable"></table>
+    </div>
+
+    <!-- UNIT MIX -->
+    <div id="tab-unitmix" class="tab-panel card-body" style="padding-top:0">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Unit mix from your spreadsheet. Edit the inputs above to update totals.</p>
+      <table class="unit-table" id="unitMixTable"></table>
+    </div>
+
+  </div><!-- /tabs card -->
+
+  <!-- VALUE ANALYSIS -->
+  <div class="card">
+    <div class="card-header"><div class="card-title">Value Analysis</div><div class="card-eyebrow">Buy / No-Buy Signal</div></div>
+    <div class="card-body">
+      <div class="metric-grid-3" style="margin-bottom:14px">
+        <div class="metric">
+          <div class="metric-val" id="va-mktval">$—</div>
+          <div class="metric-lbl">Est. Market Value (Yr 1)</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="va-stabval">$—</div>
+          <div class="metric-lbl">After-Stabilized Value</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="va-maxoffer">$—</div>
+          <div class="metric-lbl">Max Offer Price</div>
+          <div class="metric-sub">(at target DSCR)</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="va-ppu">$—</div>
+          <div class="metric-lbl">Price Per Unit</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="va-ppsf">$—</div>
+          <div class="metric-lbl">Price Per Sq Ft</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="va-grm">—x</div>
+          <div class="metric-lbl">Gross Rent Multiplier</div>
+        </div>
+      </div>
+      <div id="va-verdict" style="padding:14px;border-radius:var(--r);border:1px solid var(--border);font-size:13px;line-height:1.7;color:var(--text)">
+        Complete all inputs to see the buy/no-buy analysis.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /right-col -->
+</div><!-- /grid-main -->
+
+<div class="page-footer">
+  <strong>504Restore, LLC</strong> · Deal Analyzer · Established 2014<br>
+  Restoring Homes. Rebuilding Lives. Renewing Communities.<br>
+  <span style="font-size:11px;color:#aaa;margin-top:4px;display:block">All calculations are estimates for analytical purposes only. Verify all figures before submitting any offer. Consult your legal and financial advisors.</span>
+</div>
+</div><!-- /page -->
+
+<script>
+// ── UNIT MIX DATA (from spreadsheet) ──────────────────────────────────────
+const UNIT_MIX = [
+  { type:'A1',  sf:750,  units:5,  pfRent:975,   currentRent:959 },
+  { type:'B1',  sf:900,  units:54, pfRent:1075,  currentRent:1059.17 },
+  { type:'B1.5 TH', sf:900, units:26, pfRent:1100, currentRent:1091.43 },
+  { type:'B2',  sf:1150, units:16, pfRent:1150,  currentRent:1131.31 },
+  { type:'B2TH',sf:1000, units:14, pfRent:1125,  currentRent:1097.14 },
+  { type:'C1TH',sf:1700, units:2,  pfRent:1525,  currentRent:1505 },
+];
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const fmt = (n, decimals=0) => {
+  if (n === null || n === undefined || isNaN(n)) return '—';
+  return n.toLocaleString('en-US', { minimumFractionDigits:decimals, maximumFractionDigits:decimals });
+};
+const fmtDollar = n => n === null || isNaN(n) ? '—' : '$' + fmt(Math.round(n));
+const fmtPct = n => n === null || isNaN(n) ? '—' : (n*100).toFixed(1) + '%';
+const fmtX = n => n === null || isNaN(n) ? '—' : n.toFixed(2) + 'x';
+const val = id => parseFloat($(id)?.value) || 0;
+
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const names = ['proforma','cashflow','sources','unitmix'];
+    t.classList.toggle('active', names[i] === name);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  $('tab-' + name).classList.add('active');
+}
+
+function scrollToScore() {
+  $('scoreHero').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ── MAIN CALCULATION ───────────────────────────────────────────────────────
+function calc() {
+  // ─ INPUTS ─
+  const units      = val('totalUnits') || 117;
+  const sqft       = val('totalSqft') || 111550;
+  const purchase   = val('purchasePrice');
+  const reno       = val('renovationCost');
+  const closing    = val('closingCosts');
+  const totalBasis = purchase + reno + closing;
+  const rate       = val('interestRate') / 100;
+  const ltvPct     = val('ltv') / 100;
+  const amortYrs   = val('amortYears') || 30;
+  const ioPeriod   = val('ioPeriod') || 0;
+  const loanPoints = val('loanPoints') / 100;
+  const pfRent     = val('proformaRent');
+  const hudFmr     = val('hudFmr');
+  const vacancyPct = val('vacancy') / 100;
+  const creditPct  = val('creditLoss') / 100;
+  const ltlPct     = val('lossToLease') / 100;
+  const concPct    = val('concessions') / 100;
+  const utilitiesInc = val('utilitiesIncome');
+  const otherInc   = val('otherIncome');
+  const taxes      = val('taxes');
+  const insurance  = val('insurance');
+  const utilities  = val('utilities');
+  const waterSewer = val('waterSewer');
+  const trash      = val('trash');
+  const contractSvc= val('contractServices');
+  const payroll    = val('payroll');
+  const repairs    = val('repairs');
+  const makeReady  = val('makeReady');
+  const ga         = val('ga');
+  const advertising= val('advertising');
+  const mgmtFeePct = val('mgmtFee') / 100;
+  const reservesPerUnit = val('reserves');
+  const targetCapRate = val('targetCapRate') / 100;
+  const exitCapRate= val('exitCapRate') / 100;
+  const targetDscr = val('targetDscr');
+  const targetCoc  = val('targetCoc') / 100;
+  const targetMos  = val('targetMos') / 100;
+  const rentGrowthPct = val('rentGrowth') / 100;
+
+  // ─ LOAN ─
+  const loanAmt    = purchase * ltvPct;
+  const originFee  = loanAmt * loanPoints;
+  const equity     = totalBasis - loanAmt;
+  const monthlyRate = rate / 12;
+  const n          = amortYrs * 12;
+  const monthlyPmt = loanAmt * (monthlyRate * Math.pow(1+monthlyRate,n)) / (Math.pow(1+monthlyRate,n)-1);
+  const annualDS   = monthlyPmt * 12;
+
+  // ─ INCOME ─
+  const gpr        = pfRent * units * 12;
+  const econLoss   = gpr * (vacancyPct + creditPct + ltlPct + concPct);
+  const egi        = gpr - econLoss;
+  const totalOtherInc = utilitiesInc + otherInc;
+  const goi        = egi + totalOtherInc;
+
+  // ─ EXPENSES ─
+  const mgmtFeeAmt = goi * mgmtFeePct;
+  const reservesAmt= reservesPerUnit * units;
+  const fixedOpex  = taxes + insurance + utilities + waterSewer + trash + contractSvc + payroll + repairs + makeReady + ga + advertising;
+  const totalOpex  = fixedOpex + mgmtFeeAmt + reservesAmt;
+  const noi        = goi - totalOpex;
+
+  // ─ DEBT SERVICE & CASH FLOW ─
+  let dsYr1;
+  if (ioPeriod >= 1) {
+    dsYr1 = loanAmt * rate; // interest only
+  } else {
+    dsYr1 = annualDS;
+  }
+  const preTaxCF   = noi - dsYr1;
+  const dscr       = noi / dsYr1;
+  const coc        = preTaxCF / equity;
+
+  // ─ VALUATION ─
+  const capRate    = noi / totalBasis;
+  const mktVal     = noi / targetCapRate;
+  const mos        = (mktVal - totalBasis) / mktVal;
+  const ppu        = purchase / units;
+  const ppsf       = purchase / sqft;
+  const grm        = purchase / gpr;
+
+  // Max offer = find price where NOI / (price * LTV * annualized rate) = target DSCR
+  // Simplified: annualDS = NOI / targetDscr => loan = annualDS / annualizedLoanConstant
+  const loanConst  = (monthlyRate * Math.pow(1+monthlyRate,n)) / (Math.pow(1+monthlyRate,n)-1) * 12;
+  const maxLoan    = noi / (targetDscr * loanConst);
+  const maxOffer   = maxLoan / ltvPct;
+
+  // After-stabilized value (use Yr4 NOI estimate)
+  const stabNoi    = noi * Math.pow(1 + rentGrowthPct, 3);
+  const stabVal    = stabNoi / targetCapRate;
+
+  // ─ 10-YEAR PROJECTION ─
+  const years = 10;
+  let projData = [];
+  let mortgageBalance = loanAmt;
+  let currentGPR = gpr;
+
+  for (let yr = 1; yr <= years; yr++) {
+    // Rent growth: apply in years 4, 6, 9
+    if (yr === 4 || yr === 6 || yr === 9) currentGPR *= (1 + 0.06);
+    else if (yr > 1 && yr !== 4 && yr !== 6 && yr !== 9) currentGPR = currentGPR;
+
+    const yrEconLoss = currentGPR * (vacancyPct + creditPct + ltlPct + concPct);
+    const yrEgi = currentGPR - yrEconLoss;
+    const yrOtherInc = totalOtherInc * Math.pow(1.03, yr-1);
+    const yrGoi = yrEgi + yrOtherInc;
+    const yrMgmt = yrGoi * mgmtFeePct;
+    const yrFixedOpex = fixedOpex * Math.pow(1.02, yr-1);
+    const yrReserves = reservesAmt * Math.pow(1.02, yr-1);
+    const yrOpex = yrFixedOpex + yrMgmt + yrReserves;
+    const yrNoi = yrGoi - yrOpex;
+
+    // Debt service: IO for first ioPeriod years
+    const isIO = yr <= ioPeriod;
+    const yrDS = isIO ? loanAmt * rate : annualDS;
+    const yrPrincipal = isIO ? 0 : yrDS - (mortgageBalance * rate);
+    mortgageBalance -= yrPrincipal;
+
+    const yrCF = yrNoi - yrDS;
+    const yrCapRate = yrNoi / totalBasis;
+    const yrEstVal = yrNoi / exitCapRate;
+
+    projData.push({
+      yr, gpr: currentGPR, noi: yrNoi, ds: yrDS, cf: yrCF,
+      capRate: yrCapRate, dscr: yrNoi/yrDS, coc: yrCF/equity,
+      estVal: yrEstVal, balance: Math.max(0, mortgageBalance)
+    });
+  }
+
+  // ─ SECTION 8 ASSET SCORE ─
+  let score = 0;
+  let cats = [];
+
+  // Cat 1: S8 Compliance (30 pts) — vacancy rate, HCV rent alignment
+  let s1 = 0;
+  const rentAlignment = hudFmr > 0 ? pfRent / hudFmr : 0;
+  if (rentAlignment >= 0.9 && rentAlignment <= 1.1) s1 += 16;
+  else if (rentAlignment >= 0.8 && rentAlignment <= 1.2) s1 += 10;
+  else s1 += 4;
+  if (vacancyPct <= 0.06) s1 += 8; else if (vacancyPct <= 0.08) s1 += 5; else s1 += 2;
+  if (dscr >= 1.20) s1 += 6; else if (dscr >= 1.10) s1 += 3; else s1 += 0;
+  s1 = Math.min(30, s1);
+  cats.push({ name:'Section 8 Compliance & Rentability', earned:s1, max:30 });
+  score += s1;
+
+  // Cat 2: Cash Flow Engine (25 pts)
+  let s2 = 0;
+  if (dscr >= 1.35) s2 += 12; else if (dscr >= 1.20) s2 += 8; else if (dscr >= 1.10) s2 += 4; else s2 += 0;
+  const annualCFPerUnit = preTaxCF / units;
+  if (annualCFPerUnit >= 1200) s2 += 8; else if (annualCFPerUnit >= 600) s2 += 5; else if (annualCFPerUnit >= 0) s2 += 2; else s2 += 0;
+  if (coc >= 0.08) s2 += 5; else if (coc >= 0.05) s2 += 3; else if (coc >= 0) s2 += 1; else s2 += 0;
+  s2 = Math.min(25, s2);
+  cats.push({ name:'Cash Flow Engine', earned:s2, max:25 });
+  score += s2;
+
+  // Cat 3: Property Quality (20 pts)
+  let s3 = 0;
+  const yearBuilt = val('yearBuilt') || 1976;
+  const age = new Date().getFullYear() - yearBuilt;
+  if (age < 10) s3 += 8; else if (age < 20) s3 += 6; else if (age < 35) s3 += 4; else s3 += 2;
+  const assetClass = $('assetClass')?.value;
+  if (assetClass === 'A') s3 += 7; else if (assetClass === 'B') s3 += 5; else if (assetClass === 'C') s3 += 3; else s3 += 1;
+  const renoPerUnit = reno / units;
+  if (renoPerUnit < 2000) s3 += 5; else if (renoPerUnit < 8000) s3 += 3; else s3 += 1;
+  s3 = Math.min(20, s3);
+  cats.push({ name:'Property Quality & Rehab Risk', earned:s3, max:20 });
+  score += s3;
+
+  // Cat 4: Location Stability (15 pts)
+  let s4 = 0;
+  if (mos >= 0.30) s4 += 10; else if (mos >= 0.20) s4 += 7; else if (mos >= 0.10) s4 += 4; else if (mos >= 0) s4 += 2; else s4 += 0;
+  s4 += 5; // Base location score — no external data available
+  s4 = Math.min(15, s4);
+  cats.push({ name:'Location Stability & Market', earned:s4, max:15 });
+  score += s4;
+
+  // Cat 5: Investment Flexibility (10 pts)
+  let s5 = 0;
+  if (grm < 8) s5 += 4; else if (grm < 12) s5 += 3; else if (grm < 16) s5 += 2; else s5 += 1;
+  s5 += 3; // S8, market rental, owner-occ exit options
+  if (mos > 0) s5 += 3;
+  s5 = Math.min(10, s5);
+  cats.push({ name:'Investment Flexibility & Exit', earned:s5, max:10 });
+  score += s5;
+
+  score = Math.min(100, Math.max(0, Math.round(score)));
+
+  // ─ UPDATE UI ─
+  // Score display
+  const scoreEl = $('scoreNum');
+  scoreEl.textContent = score;
+
+  let scoreColor, verdict, scoreSub, verdictClass;
+  if (score >= 90) { scoreColor='#1E7C39'; verdict='CORE ASSET'; scoreSub='Acquire aggressively. All criteria met.'; verdictClass='verdict-core'; }
+  else if (score >= 80) { scoreColor='#2d8a4a'; verdict='STRONG ASSET'; scoreSub='Proceed with negotiation. Strong fundamentals.'; verdictClass='verdict-strong'; }
+  else if (score >= 70) { scoreColor='#D97706'; verdict='NEEDS NEGOTIATION'; scoreSub='Price reduction required before advancing.'; verdictClass='verdict-negotiate'; }
+  else { scoreColor='#C0392B'; verdict='REJECT'; scoreSub='Does not meet minimum thresholds at current price.'; verdictClass='verdict-reject'; }
+
+  scoreEl.style.color = scoreColor;
+  $('scoreVerdict').textContent = verdict;
+  $('scoreVerdict').style.color = scoreColor;
+  $('scoreSub').textContent = scoreSub;
+  $('scoreBar').style.width = score + '%';
+  $('scoreBar').style.background = scoreColor;
+
+  $('scoreBadgesWrap').innerHTML = `<div class="verdict-badge ${verdictClass}">${verdict}</div>`;
+
+  // Score breakdown
+  $('scoreBreakdown').innerHTML = cats.map(c => `
+    <div class="score-cat">
+      <div class="score-cat-name">${c.name}</div>
+      <div class="score-cat-bar-wrap"><div class="score-cat-bar" style="width:${Math.round(c.earned/c.max*100)}%"></div></div>
+      <div class="score-cat-pts">${c.earned} / ${c.max}</div>
+    </div>`).join('');
+
+  // Key metrics
+  const setMetric = (id, valStr, cls) => {
+    $(id).className = 'metric' + (cls ? ' '+cls : '');
+    $(id.replace('m-','mv-')).textContent = valStr;
+  };
+
+  const dscrCls = dscr >= targetDscr ? 'good' : dscr >= 1.10 ? 'warn' : 'bad';
+  const cocCls  = coc >= targetCoc ? 'good' : coc >= 0.04 ? 'warn' : 'bad';
+  const capCls  = capRate >= targetCapRate ? 'good' : capRate >= targetCapRate*0.8 ? 'warn' : 'bad';
+  const mosCls  = mos >= targetMos ? 'good' : mos >= 0 ? 'warn' : 'bad';
+  const cfCls   = preTaxCF > 0 ? 'good' : 'bad';
+  const noiCls  = noi > 0 ? '' : 'bad';
+
+  setMetric('m-noi', fmtDollar(noi), noiCls);
+  setMetric('m-cf', fmtDollar(preTaxCF), cfCls);
+  setMetric('m-dscr', fmtX(dscr), dscrCls);
+  setMetric('m-coc', fmtPct(coc), cocCls);
+  setMetric('m-caprate', fmtPct(capRate), capCls);
+  setMetric('m-mos', fmtPct(mos), mosCls);
+
+  $('mv-gpr').textContent = fmtDollar(gpr);
+  $('mv-egi').textContent = fmtDollar(egi);
+  $('mv-ds').textContent  = fmtDollar(dsYr1);
+  $('mv-equity').textContent = fmtDollar(equity);
+  $('mv-loan').textContent   = fmtDollar(loanAmt);
+  $('mv-mds').textContent    = fmtDollar(monthlyPmt);
+
+  // Pro Forma Table
+  const pfRows = [
+    { label:'INCOME', isHeader:true },
+    { label:'Gross Potential Rent', val:gpr },
+    { label:'Less: Physical Vacancy', val:-(gpr*vacancyPct) },
+    { label:'Less: Loss to Lease', val:-(gpr*ltlPct) },
+    { label:'Less: Concessions', val:-(gpr*concPct) },
+    { label:'Less: Credit & Collection Loss', val:-(gpr*creditPct) },
+    { label:'Total Economic Loss', val:-econLoss, bold:true },
+    { label:'EFFECTIVE GROSS INCOME', val:egi, isTotal:true },
+    { label:'Plus: Utilities Income', val:utilitiesInc },
+    { label:'Plus: Other Income', val:otherInc },
+    { label:'GROSS OPERATING INCOME', val:goi, isTotal:true },
+    { label:'OPERATING EXPENSES', isHeader:true },
+    { label:'Real Estate Taxes', val:-taxes },
+    { label:'Property Insurance', val:-insurance },
+    { label:'Utilities (Common Areas)', val:-utilities },
+    { label:'Water & Sewer', val:-waterSewer },
+    { label:'Trash Removal', val:-trash },
+    { label:'Contract Services', val:-contractSvc },
+    { label:'Payroll', val:-payroll },
+    { label:'Repairs & Maintenance', val:-repairs },
+    { label:'Make Ready', val:-makeReady },
+    { label:'General & Administrative', val:-ga },
+    { label:'Advertising & Promotion', val:-advertising },
+    { label:'Management Fee', val:-mgmtFeeAmt },
+    { label:'Reserves & Replacements', val:-reservesAmt },
+    { label:'TOTAL OPERATING EXPENSES', val:-totalOpex, isTotal:true },
+    { label:'NET OPERATING INCOME', val:noi, isNoi:true },
+    { label:'Less: Debt Service', val:-dsYr1 },
+    { label:'PRE-TAX CASH FLOW', val:preTaxCF, isCF:true },
+  ];
+
+  $('proformaTable').innerHTML = `
+    <thead><tr>
+      <th style="width:50%">Line Item</th>
+      <th>Annual</th><th>Per Unit</th><th>Per Sq Ft</th><th>% of GOI</th>
+    </tr></thead>
+    <tbody>${pfRows.map(r => {
+      if (r.isHeader) return `<tr class="row-header"><td colspan="5" style="padding-top:14px">${r.label}</td></tr>`;
+      const v = r.val || 0;
+      const cls = r.isTotal ? 'row-total' : r.isNoi ? 'row-noi' : r.isCF ? 'row-cf' : '';
+      const numCls = v < 0 ? 'negative' : v > 0 ? 'positive' : '';
+      return `<tr class="${cls}">
+        <td>${r.label}</td>
+        <td class="${numCls}">${fmtDollar(v)}</td>
+        <td class="${numCls}">${fmtDollar(v/units)}</td>
+        <td class="${numCls}">$${(v/sqft).toFixed(2)}</td>
+        <td class="${numCls}">${goi > 0 ? fmtPct(v/goi) : '—'}</td>
+      </tr>`;
+    }).join('')}</tbody>`;
+
+  // 10-Year CF Table & Chart
+  $('cfTable').innerHTML = `
+    <thead><tr>
+      <th>Metric</th>
+      ${projData.map(d=>`<th>Yr ${d.yr}</th>`).join('')}
+    </tr></thead>
+    <tbody>
+      <tr><td>NOI</td>${projData.map(d=>`<td class="${d.noi>0?'positive':''}">${fmtDollar(d.noi)}</td>`).join('')}</tr>
+      <tr class="row-header"><td>Debt Service</td>${projData.map(d=>`<td>${fmtDollar(d.ds)}</td>`).join('')}</tr>
+      <tr class="row-noi"><td>Cash Flow</td>${projData.map(d=>`<td class="${d.cf>0?'positive':'negative'}">${fmtDollar(d.cf)}</td>`).join('')}</tr>
+      <tr><td>DSCR</td>${projData.map(d=>`<td class="${d.dscr>=1.20?'positive':'negative'}">${fmtX(d.dscr)}</td>`).join('')}</tr>
+      <tr><td>CoC Return</td>${projData.map(d=>`<td class="${d.coc>=0.05?'positive':d.coc>=0?'':'negative'}">${fmtPct(d.coc)}</td>`).join('')}</tr>
+      <tr><td>Est. Property Value</td>${projData.map(d=>`<td>${fmtDollar(d.estVal)}</td>`).join('')}</tr>
+    </tbody>`;
+
+  // CF Chart
+  const cfVals = projData.map(d => d.cf);
+  const maxAbs = Math.max(...cfVals.map(Math.abs), 1);
+  const chartH = 110;
+  $('cfChart').innerHTML = `
+    <div class="chart-zero"></div>
+    <div class="chart-bars">
+      ${cfVals.map((v,i) => {
+        const pct = Math.abs(v) / maxAbs * chartH;
+        const color = v >= 0 ? '#1E7C39' : '#C0392B';
+        return `<div class="chart-bar-wrap" style="justify-content:${v>=0?'flex-end':'flex-start'}">
+          <div class="chart-bar-inner" style="height:${pct}px;background:${color}">
+            <div class="chart-tooltip">Yr ${i+1}: ${fmtDollar(v)}</div>
+          </div>
+          <div class="chart-bar-label">Yr${i+1}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  // Sources & Uses
+  const usesRows = [
+    ['Purchase Price', purchase],
+    ['Renovation / Turnaround', reno],
+    ['Loan Origination Fee', originFee],
+    ['Other Closing Costs', closing - originFee],
+    ['Total Uses', totalBasis],
+  ];
+  const sourcesRows = [
+    ['Equity / Down Payment', equity],
+    ['Debt Borrowed', loanAmt],
+    ['Total Sources', totalBasis],
+  ];
+  $('su-equity').textContent = fmtDollar(equity);
+  $('su-debt').textContent   = fmtDollar(loanAmt);
+  $('su-total-src').textContent = fmtDollar(totalBasis);
+  $('su-total-use').textContent = fmtDollar(totalBasis);
+  $('sourcesTable').innerHTML = `
+    <thead><tr><th>Item</th><th>Amount</th><th>% of Total</th></tr></thead>
+    <tbody>
+      <tr class="row-header"><td colspan="3">SOURCES</td></tr>
+      ${sourcesRows.map((r,i) => `<tr class="${i===2?'row-total':''}"><td>${r[0]}</td><td>${fmtDollar(r[1])}</td><td>${fmtPct(r[1]/totalBasis)}</td></tr>`).join('')}
+      <tr class="row-header"><td colspan="3">USES</td></tr>
+      ${usesRows.map((r,i) => `<tr class="${i===4?'row-total':''}"><td>${r[0]}</td><td>${fmtDollar(r[1])}</td><td>${fmtPct(r[1]/totalBasis)}</td></tr>`).join('')}
+    </tbody>`;
+
+  // Unit Mix Table
+  const totalUnitsUM = UNIT_MIX.reduce((s,r) => s+r.units, 0);
+  const totalSfUM    = UNIT_MIX.reduce((s,r) => s+r.sf*r.units, 0);
+  const totalCurrent = UNIT_MIX.reduce((s,r) => s+r.currentRent*r.units, 0);
+  const totalPf      = UNIT_MIX.reduce((s,r) => s+r.pfRent*r.units, 0);
+  $('unitMixTable').innerHTML = `
+    <thead><tr><th>Unit Type</th><th>Units</th><th>% of Total</th><th>Sq Ft</th><th>Total Sq Ft</th><th>Current Rent</th><th>Proforma Rent</th><th>Monthly Total</th></tr></thead>
+    <tbody>
+      ${UNIT_MIX.map(r => `<tr>
+        <td>${r.type}</td>
+        <td>${r.units}</td>
+        <td>${fmtPct(r.units/totalUnitsUM)}</td>
+        <td>${fmt(r.sf)}</td>
+        <td>${fmt(r.sf*r.units)}</td>
+        <td>$${fmt(r.currentRent,2)}</td>
+        <td>$${fmt(r.pfRent)}</td>
+        <td>$${fmt(r.pfRent*r.units)}</td>
+      </tr>`).join('')}
+      <tr class="total-row">
+        <td>TOTAL</td><td>${totalUnitsUM}</td><td>100%</td><td>—</td>
+        <td>${fmt(totalSfUM)}</td><td>$${fmt(totalCurrent/totalUnitsUM,2)}/unit avg</td>
+        <td>$${fmt(totalPf/totalUnitsUM)}/unit avg</td>
+        <td>$${fmt(totalPf)}</td>
+      </tr>
+    </tbody>`;
+
+  // Value Analysis
+  $('va-mktval').textContent  = fmtDollar(mktVal);
+  $('va-stabval').textContent = fmtDollar(stabVal);
+  $('va-maxoffer').textContent= fmtDollar(maxOffer);
+  $('va-ppu').textContent     = fmtDollar(ppu);
+  $('va-ppsf').textContent    = '$' + ppsf.toFixed(2);
+  $('va-grm').textContent     = grm.toFixed(2) + 'x';
+
+  const mosPct = (mos * 100).toFixed(1);
+  const moatText = mos >= targetMos ? `✓ Sufficient MOAT — ${mosPct}% margin of safety exceeds your ${(targetMos*100).toFixed(0)}% target.` :
+                   mos >= 0 ? `⚠ Insufficient MOAT — ${mosPct}% margin of safety is below your ${(targetMos*100).toFixed(0)}% target.` :
+                   `✗ Negative MOAT — property is worth ${Math.abs(mosPct)}% LESS than your total acquisition cost.`;
+  const offerGap = maxOffer - purchase;
+  const offerText = offerGap >= 0 ?
+    `Purchase price of ${fmtDollar(purchase)} is ${fmtDollar(offerGap)} below the maximum offer price. ` :
+    `Purchase price of ${fmtDollar(purchase)} is ${fmtDollar(Math.abs(offerGap))} ABOVE the maximum offer price at your target DSCR of ${targetDscr}x. A price reduction is required to meet your return hurdles. `;
+
+  $('va-verdict').innerHTML = `
+    <div style="margin-bottom:8px;font-weight:600">${moatText}</div>
+    <div style="margin-bottom:8px">${offerText}</div>
+    <div>Market value estimate at ${(targetCapRate*100).toFixed(1)}% cap rate: <strong>${fmtDollar(mktVal)}</strong>. 
+    After-stabilized value (Year 4): <strong>${fmtDollar(stabVal)}</strong>. 
+    Year 1 DSCR: <strong>${fmtX(dscr)}</strong> — ${dscr >= targetDscr ? 'meets target.' : dscr >= 1.0 ? 'below target.' : 'below 1.0x — deal does not cover debt service.'}</div>`;
+}
+
+function resetToDefault() {
+  const defaults = {
+    propName:'Parks at Slidell', propAddr:'300 N. Military Rd., Slidell, LA 70461',
+    yearBuilt:'1976', assetClass:'C', totalUnits:'117', numBuildings:'17',
+    totalSqft:'111550', stories:'2', purchasePrice:'21000000', renovationCost:'200000',
+    closingCosts:'568234', interestRate:'5.00', ltv:'75', amortYears:'30',
+    loanTerm:'10', ioPeriod:'3', loanPoints:'1.0', proformaRent:'1100',
+    currentRent:'1085', hudFmr:'1140', vacancy:'8.0', creditLoss:'1.5',
+    lossToLease:'1.5', concessions:'0.25', utilitiesIncome:'50000',
+    otherIncome:'144119', taxes:'95000', insurance:'128700', utilities:'16500',
+    waterSewer:'67000', trash:'37500', contractServices:'40000', payroll:'95400',
+    repairs:'32500', makeReady:'27500', ga:'34000', advertising:'15000',
+    mgmtFee:'4.0', reserves:'343', minDscr:'1.20', targetDscr:'1.35',
+    targetCapRate:'5.5', targetCoc:'8.0', targetMos:'30', exitCapRate:'5.5',
+    rentGrowth:'3.0'
+  };
+  Object.entries(defaults).forEach(([id, v]) => { if ($(id)) $(id).value = v; });
+  calc();
+}
+
+// Init
+calc();
+</script>
+</body>
+</html>
